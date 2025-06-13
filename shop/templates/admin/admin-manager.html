@@ -1,0 +1,83 @@
+{% extends 'admin/layout.html' %}
+{% block content  %}
+{%include 'admin/header.html'%}
+<div class="content-wrapper">
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">MANAGE ADMIN</h3>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div style=" margin-top: 20px; margin-bottom: -45px; ">{%include '_messages.html'%}</div>
+                        </div>
+                        <div class="card-body">
+                            <table id="example1" class="table table-bordered table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Sr</th>
+                                    <th>Username</th>
+                                    <th>email</th>
+                                    <th>Delete</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {%for admin in admins%}
+                                <tr>
+                                    <td>{{loop.index}}</td>
+                                    <td>{{admin.username}}</td>
+                                    <td>{{admin.email}}</td>
+                                    <td>
+                                        {% if admin.username != user.username%}
+                                        <button type="button" class="btn  btn-danger" data-toggle="modal"
+                                                data-target="#staticBackdrop-{{admin.id}}">
+                                            Delete
+                                        </button>
+                                        {% else %}
+                                        <button type="button" class="btn  btn-dark btn" data-toggle="modal"
+                                                data-target="#staticBackdrop-{{admin.id}}" disabled>
+                                            Delete
+                                        </button>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                <div class="modal fade" id="staticBackdrop-{{admin.id}}" data-backdrop="static"
+                                     data-keyboard="false"
+                                     tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="staticBackdropLabel">{{admin.username}}</h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <span class="text-danger">Bạn có chắc chắn muốn xoá: {{admin.username}}??</span>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-warning  btn-secondary"
+                                                        data-dismiss="modal">Cancel
+                                                </button>
+                                                <form action="{{url_for('delete_admin', id=admin.id)}}" method="POST">
+                                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                                </form>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {%endfor%}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock content %}

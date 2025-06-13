@@ -1,0 +1,62 @@
+<div class="header-wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-8">
+                <div class="logo">
+                    <a href="{{url_for('home')}}"><img src="{{ url_for('static', filename='images/logo250.jpg') }}" alt="" style="width: 62px;">LOTH Phone Store</a>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <div class="search-bg">
+                    <form action="{{ url_for('search')}}" method="post">
+                        <input type="text" class="form-control" name="search" placeholder="Tìm kiếm">
+                        <button type="Submit" style="margin-bottom: 6px;"><i class="fa fa-search"></i></button>
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                <div class="account-section">
+                    <ul>
+                        {% if current_user.is_authenticated %}
+                        <li><a href="{{url_for('update_account')}}" class="title hidden-xs">My Account</a></li>
+                        <li class="hidden-xs">|</li>
+                        <li><a href="{{url_for('customer_logout')}}" class="title hidden-xs">Logout</a></li>
+                        {% else %}
+                        <li><a href="{{url_for('customer_login')}}" class="title hidden-xs">Sign In</a></li>
+                        <li class="hidden-xs">|</li>
+                        <li><a href="{{url_for('customer_register')}}" class="title hidden-xs">Sign Up</a></li>
+                        {% endif %}
+                        <li><a href="{{url_for('getCart')}}" class="title"><i class="fa fa-shopping-cart"></i> <sup
+                                class="cart-quantity">{{ session['Shoppingcart']|length }}</sup></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="navigation">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div id="navigation">
+                        <ul>
+                            <li class="active"><a href="{{url_for('home')}}">Trang chủ</a></li>
+                            {% for category in categories%}
+                            <li class="has-sub"><a href="{{url_for('get_category', name=category.name)}}">{{
+                                category.name }}</a>
+                                <ul>
+                                    {% for brand in brands %}
+                                    {% if brand.category_id == category.id%}
+                                    <li><a href="{{url_for('get_brand', name=brand.name)}}">{{ brand.name }}</a></li>
+                                    {% endif %}
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
