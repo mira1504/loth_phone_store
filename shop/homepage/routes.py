@@ -12,13 +12,11 @@ import os
 
 
 def brands():
-    # brands = Brand.query.join(Product, (Brand.id == Product.brand_id)).all()
     brands = Brand.query.all()
     return brands
 
 
 def categories():
-    # categories = Category.query.join(Product, (Category.id == Product.category_id)).all()
     categories = Category.query.order_by(Category.name.asc()).all()
     return categories
 
